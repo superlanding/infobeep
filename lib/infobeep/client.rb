@@ -7,9 +7,19 @@ module Infobeep
   class Client
     API_BASE_URL = 'https://api.infobip.com/'
 
+    @@timeout = 60
+
     def initialize(username, password)
       @username = username
       @password = password
+    end
+
+    def timeout
+      @@timeout
+    end
+
+    def timeout=(t)
+      @@timeout = t
     end
 
     def send_request(sms_request)
@@ -19,7 +29,7 @@ module Infobeep
       payload = sms_request.payload
 
       begin
-        response = RestClient::Request.execute(method: method, url: url, payload: payload, headers: headers)
+        response = RestClient::Request.execute(method: method, url: url, payload: payload, headers: headers, timeout: timeout)
       rescue RestClient::ExceptionWithResponse => err
         raise err
       end
@@ -35,9 +45,9 @@ module Infobeep
 
     def client_headers
       hsh = {
-          'User-Agent': "Infobeep-#{Infobeep::VERSION}",
-          'Content-Type': 'application/json',
-          'accept': 'application/json'
+        'User-Agent': "Infobeep-#{Infobeep::VERSION}",
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
       }
       hsh.merge!(authentication_headers)
       hsh
