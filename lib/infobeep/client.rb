@@ -14,11 +14,11 @@ module Infobeep
       @password = password
     end
 
-    def timeout
+    def self.timeout
       @@timeout
     end
 
-    def timeout=(t)
+    def self.timeout=(t)
       @@timeout = t
     end
 
