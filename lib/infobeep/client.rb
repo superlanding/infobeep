@@ -29,7 +29,7 @@ module Infobeep
       payload = sms_request.payload
 
       begin
-        response = RestClient::Request.execute(method: method, url: url, payload: payload, headers: headers, timeout: timeout)
+        response = RestClient::Request.execute(method: method, url: url, payload: payload, headers: headers, timeout: self.class.timeout)
       rescue RestClient::ExceptionWithResponse => err
         raise err
       end
